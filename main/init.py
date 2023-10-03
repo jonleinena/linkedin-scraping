@@ -1,5 +1,5 @@
 import main
-from lib import gptCode as gpt
+from main.lib import gpt_code as gpt
 from utils import clean_data as cd 
 import os
 import time
@@ -40,7 +40,7 @@ if __name__ == '__main__':
             logger.info(str(dt.now()) + " - [SAVING JSON]")
         
     except Exception as e:
-        logging.error(str(dt.now()) + " - [MAIN] "+ str(e))
+        logger.error(str(dt.now()) + " - [MAIN] "+ str(e))
     finally:
         DRIVER.delete_all_cookies()
         DRIVER.quit()

@@ -88,9 +88,9 @@ def scrape_linkedin_offers(DRIVER, data: dict):
             (data[job_id])['job-description'] = str(description)
             logger.info(str(dt.now()) + " - [SCRAPED] id:" +str(job_id) + "\n")
     except Exception as e:
-        logging.error(str(dt.now()) + " - [SCRAPING OFFER] id: "+ "\n" +str(data[id]) + str(e))
+        logger.error(str(dt.now()) + " - [SCRAPING OFFER] id: "+ "\n" +str(data[id]) + str(e))
         
     finally:
-        logging.info(str(dt.now()) + " - [SCRAPING OFFER] Finished\n")
+        logger.info(str(dt.now()) + " - [SCRAPING OFFER] Finished\n")
 
 

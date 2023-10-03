@@ -2,7 +2,7 @@ import openai
 import os
 import sys
 import time
-import logging
+from logs import logger_config as logger
 from datetime import datetime as dt
 
 initial_instruction =  ""
@@ -14,12 +14,12 @@ def init_key():
         file = open("../data/GPTinstructions.txt", "r") 
         initial_instruction = file.read()
         file.close()
-        logging.info(str(dt.now()) + " - [OPENAI KEY] read ok")
-        logging.info(str(dt.now()) +" - [INITIAL INSTRUCTION] read ok")
+        logger.info(str(dt.now()) + " - [OPENAI KEY] read ok")
+        logger.info(str(dt.now()) +" - [INITIAL INSTRUCTION] read ok")
         return initial_instruction
 
     except KeyError:
-        logging.error(str(dt.now()) +"""
+        logger.error(str(dt.now()) +"""
         You haven't set up your API key yet.
         
         If you don't have an API key yet, visit:
@@ -46,10 +46,10 @@ def generate_responses(prompt):
             {"role": "system", "content": initial_instruction},
             {"role": "user", "content": str(prompt)}
         ], temperature = 1.5)
-        logging.info(str(dt.now()) +" - [RESPONSE] generated ok")
+        logger.info(str(dt.now()) +" - [RESPONSE] generated ok")
         return(response['choices'][0]['message']['content'])
     except Exception as e:
-        logging.error(str(dt.now()) +" - [RESPONSE]" + str(e))
+        logger.error(str(dt.now()) +" - [RESPONSE]" + str(e))
 
 def response_to_text(job_id, company_name, response):
     if (response != "It does not suit you. No cover letter provided."):
@@ -57,11 +57,11 @@ def response_to_text(job_id, company_name, response):
             file = open("../output/" + str(job_id) + "-"+str(company_name)+".txt", "w")
             file.write(response)
             file.close()
-            logging.info(str(dt.now()) +" - [TEXT OUTPUT OK] id: "+ str(job_id))
+            logger.info(str(dt.now()) +" - [TEXT OUTPUT OK] id: "+ str(job_id))
             
             return("../output/" + str(job_id) + "-"+str(company_name)+".txt")
 
         except:
-            logging.error(str(dt.now()) +" - [TEXT OUTPUT ERR] id: "+ str(job_id))
+            logger.error(str(dt.now()) +" - [TEXT OUTPUT ERR] id: "+ str(job_id))
     else:
         return("../../output/not-suitable-" + str(job_id) + "-"+str(company_name)+".txt")
